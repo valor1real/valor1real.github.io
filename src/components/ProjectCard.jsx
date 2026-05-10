@@ -1,14 +1,16 @@
 import React from "react";
 
-const ProjectCard = ({ title, description, technologies, link }) => {
+const ProjectCard = ({
+  title,
+  description,
+  technologies,
+  link,
+  delayClass,
+}) => {
   return (
-    <div className="project-card">
-      <h3 style={{ color: "var(--text-primary)", marginBottom: "10px" }}>
-        {title}
-      </h3>
-      <p style={{ color: "var(--text-secondary)", flexGrow: 1 }}>
-        {description}
-      </p>
+    <div className={`project-card reveal ${delayClass}`}>
+      <h3 className="project-title">{title}</h3>
+      <p className="project-desc">{description}</p>
 
       <div className="tech-tags">
         {technologies.map((tech, index) => (
@@ -18,18 +20,8 @@ const ProjectCard = ({ title, description, technologies, link }) => {
         ))}
       </div>
 
-      <a
-        href={link}
-        target="_blank"
-        rel="noreferrer"
-        style={{
-          color: "var(--accent-blue)",
-          textDecoration: "none",
-          fontWeight: "bold",
-          marginTop: "auto",
-        }}
-      >
-        Voir les détails →
+      <a href={link} target="_blank" rel="noreferrer" className="project-link">
+        Voir les détails
       </a>
     </div>
   );

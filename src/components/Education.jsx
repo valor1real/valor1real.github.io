@@ -6,48 +6,63 @@ const Education = () => {
     $(".accordion-header")
       .off("click")
       .on("click", function () {
-        $(".accordion-content").not($(this).next()).slideUp();
-        $(this).next(".accordion-content").slideToggle();
+        $(".accordion-content").not($(this).next()).slideUp(300);
+        $(".accordion-header").not($(this)).removeClass("active");
+
+        $(this).next(".accordion-content").slideToggle(300);
+
+        $(this).toggleClass("active");
       });
   }, []);
 
   const educationData = [
     {
       title: "Licence Sciences de l'Information (SINF)",
-      dateBadge: "2024 - Présent",
-      accordionTitle: "Faculté des Sciences Semlalia, Université Cadi Ayyad.",
-      accordionDescription:
+      date: "2024 - Présent",
+      institution: "Faculté des Sciences Semlalia, Université Cadi Ayyad",
+      description:
         "Actuellement en 4ème semestre. Étude approfondie des structures de données, de la programmation orientée objet, des mathématiques appliquées et du développement web.",
     },
     {
       title: "Baccalauréat",
-      dateBadge: "Obtenu en 2024",
-      accordionTitle: "Diplôme du Baccalauréat.",
-      accordionDescription:
-        "Bases scientifiques et préparation à l'entrée dans l'enseignement supérieur pour les études d'ingénierie et de sciences.",
+      date: "Obtenu en 2024",
+      institution: "Diplôme National",
+      description:
+        "Bases scientifiques solides et préparation à l'entrée dans l'enseignement supérieur pour les études d'ingénierie et de sciences exactes.",
     },
   ];
 
   return (
-    <section id="education">
-      <h2>Formation & Parcours</h2>
+    <section id="education" className="section-padding">
+      <h2 className="reveal section-title">
+        Mon <span className="gradient-text">Parcours</span>
+      </h2>
 
-      {educationData.map(
-        ({ title, dateBadge, accordionTitle, accordionDescription }, index) => {
-          return (
-            <div className="accordion-item" key={index}>
-              <div className="accordion-header">
-                <span>{title}</span>
-                <span className="date-badge">{dateBadge}</span>
+      <div className="accordion-container">
+        {educationData.map((item, index) => (
+          <div
+            className={`accordion-item reveal delay-${index + 1}`}
+            key={index}
+          >
+            <div className="accordion-header">
+              <div className="accordion-title-group">
+                <h3 className="accordion-title">{item.title}</h3>
+                <span className="accordion-institution">
+                  {item.institution}
+                </span>
               </div>
-              <div className="accordion-content" style={{ paddingTop: "16px" }}>
-                <p>{accordionTitle}</p>
-                <p>{accordionDescription}</p>
+              <div className="accordion-meta">
+                <span className="date-badge">{item.date}</span>
+                <span className="chevron">▼</span>
               </div>
             </div>
-          );
-        },
-      )}
+
+            <div className="accordion-content" style={{ display: "none" }}>
+              <p>{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
   );
 };

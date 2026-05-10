@@ -1,61 +1,59 @@
-import React from "react";
+import React, { useEffect } from "react";
+import $ from "jquery";
 import "./App.css";
 
-import Header from "./components/Header";
+// Import de tous les composants
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
 import Skills from "./components/Skills";
 import Education from "./components/Education";
-import ProjectCard from "./components/ProjectCard";
+import Projects from "./components/Projects";
 import Contact from "./components/Contact";
+import Footer from "./components/Footer";
 
 function App() {
-  const projectsData = [
-    {
-      title: "Nexted Ecosystem",
-      description:
-        "Conception et développement d'une plateforme d'apprentissage destinée aux étudiants scientifiques et techniques. Objectif : fournir des ressources ciblées via une interface minimaliste.",
-      technologies: ["Figma", "React", "UI/UX"],
-      link: "#",
-    },
-    {
-      title: "Campus Rush",
-      description:
-        "Jeu 2D dynamique développé dans le cadre académique. Le joueur incarne un étudiant devant atteindre la faculté avant la fin du chrono. Mise en application directe des concepts de la POO.",
-      technologies: ["C++", "SFML Library", "POO"],
-      link: "#",
-    },
-    {
-      title: "Prototypage Matériel (Maker)",
-      description:
-        "Exploration continue de l'architecture des systèmes embarqués et de l'Edge AI à travers divers montages électroniques et programmation bas niveau.",
-      technologies: ["C", "Embedded Systems", "Hardware"],
-      link: "#",
-    },
-  ];
+  // Le moteur jQuery reste le même
+  useEffect(() => {
+    const checkVisibility = () => {
+      const windowHeight = $(window).height();
+      const scrollTop = $(window).scrollTop();
+
+      $(".reveal").each(function () {
+        const elementTop = $(this).offset().top;
+        const triggerPoint = scrollTop + windowHeight - 50;
+
+        if (elementTop < triggerPoint) {
+          $(this).addClass("active");
+
+          $(this)
+            .find(".skill-bar-fill")
+            .each(function () {
+              const target = $(this).attr("data-target");
+              $(this).css("width", target);
+            });
+        }
+      });
+    };
+
+    $(window).on("scroll", checkVisibility);
+    checkVisibility();
+
+    return () => $(window).off("scroll", checkVisibility);
+  }, []);
 
   return (
-    <div className="container">
-      <Header />
+    <div className="portfolio-app">
+      <Navbar />
 
-      <Skills />
+      <main className="main-content">
+        <Hero />
+        <Skills />
+        <Education />
+        <Projects />
+        <Contact />
+      </main>
 
-      <Education />
-
-      <section id="projects">
-        <h2>Projets & Réalisations</h2>
-        <div className="projects-grid">
-          {projectsData.map((project, index) => (
-            <ProjectCard
-              key={index}
-              title={project.title}
-              description={project.description}
-              technologies={project.technologies}
-              link={project.link}
-            />
-          ))}
-        </div>
-      </section>
-
-      <Contact />
+      <Footer />
     </div>
   );
 }
